@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\View;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('register');
 });
 
 Route::get('/register', function (\Illuminate\Http\Request $request) {
@@ -57,3 +57,5 @@ Route::get('/project-create', function (\Illuminate\Http\Request $request) {
 
 Route::get('/project-assign/{projectId}', [ProjectsController::class, 'assignees']);
 Route::post('/project-assign', [ProjectsController::class, 'assign']);
+
+Route::get('/project-edit/{projectId}', [ProjectsController::class, 'editForm']);

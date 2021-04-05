@@ -24,7 +24,7 @@ class ProjectsController extends Controller
         })->get();
         return View::make('projects', [
             'projects' => $projects,
-            'loggedUse˚rId' => $loggedId
+            'loggedUserId' => $loggedId
         ]);
     }
 
@@ -73,5 +73,20 @@ class ProjectsController extends Controller
         ]);
 
         return View::make('project-create');
+    }
+
+    public function editForm(Request $request, $projectId)
+    {
+        $loggedId = $request->session()->get('user.id');
+        if (!$loggedId) {
+            return view('login');
+        }
+
+        $project = Projects::where('id', $projectId)->first();
+
+        return View::make('project-edit', [
+            'project' => $project,
+            'loggedUserId' => $loggedId
+        ]);
     }
 }
