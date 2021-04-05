@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\View;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -54,7 +53,8 @@ class UserController extends Controller
         $request->session()->put('user.name', $user->name);
         $request->session()->put('user.role', $user->role);
 
-        return redirect('/projects');
+        if ($user->role == 'admin') return redirect('/users');
+        return redirect('/tasks');
     }
 
     public function logout(Request $request)
@@ -63,6 +63,6 @@ class UserController extends Controller
         $request->session()->forget('user.email');
         $request->session()->forget('user.name');
         $request->session()->forget('user.role');
-        return View::make('login');
+        return redirect('/login');
     }
 }

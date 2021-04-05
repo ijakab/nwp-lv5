@@ -56,3 +56,5 @@ Route::get('/task-create', function (\Illuminate\Http\Request $request) {
 });
 
 Route::get('/apply/{taskId}', [TaskController::class, 'apply']);
+Route::get('/approve/{taskId}/{userId}', [TaskController::class, 'approve']);
+Route::get('/applicants/{taskId}', [TaskController::class, 'applicants']);

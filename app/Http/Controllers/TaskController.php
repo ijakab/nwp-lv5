@@ -6,8 +6,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\View;
 use Illuminate\Http\Request;
 use App\Models\Task;
-use App\Models\User;
-use Illuminate\Database\Eloquent\Builder;
 
 class TaskController extends Controller
 {
@@ -29,18 +27,30 @@ class TaskController extends Controller
         ]);
     }
 
-    public function assignees(Request $request, $id)
+    public function applicants(Request $request, $taskId)
     {
-        $loggedId = $request->session()->get('user.id');
-        if (!$loggedId) {
-            return view('login');
+        $loggedRole = $request->session()->get('user.role');
+        if ($loggedRole != 'teacher') {
+            return view('/tasks');
         }
 
-        $users = User::all();
-        return View::make('project-assign', [
-            'users' => $users,
-            'projectId' => $id
+        $task = Task::where('id', $taskId)->with('applicants')->first();
+        return View::make('applicants', [
+            'applicants' => $task->applicants,
+            'task' => $task
         ]);
+    }
+
+    public function approve(Request $request, $taskId, $studentId)
+    {
+        $loggedId = $request->session()->get('user.id');
+        $task = Task::where('id', $taskId)->with('applicants')->first();
+
+        if ($task->teacher_id != $loggedId) return redirect('/tasks');
+        $task->student_id = $studentId;
+        $task->save();
+
+        return redirect('/tasks');
     }
 
     public function apply(Request $request, $taskId)
