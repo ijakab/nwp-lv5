@@ -34,11 +34,12 @@
     <form action="/project-create" method="post">
         @csrf
         <p> <input type="text" placeholder="title" name="title" /> </p>
-        <p> <input type="text" placeholder="description" name="description" /> </p>
-        <p> <input type="text" placeholder="price" name="price" /> </p>
-        <p> <input type="date" placeholder="starts_at" name="starts_at" /> </p>
-        <p> <input type="date" placeholder="ends_at" name="ends_at" /> </p>
-        <p> <textarea name="jobs_done">Jobs done </textarea> </p>
+        <p> <input type="text" placeholder="title_en" name="title_en" /> </p>
+        <select name="study_type">
+            <option value="strucni">Strucni</option>
+            <option value="preddiplomski">Preddiplomski</option>
+            <option value="diplomski">Diplomski</option>
+        </select>
         <p> <input type="submit" name="submit" /> </p>
     </form>
 

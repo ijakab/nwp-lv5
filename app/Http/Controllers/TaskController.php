@@ -10,7 +10,7 @@ use App\Models\Task;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 
-class ProjectsController extends Controller
+class TaskController extends Controller
 {
     public function show(Request $request)
     {
@@ -58,21 +58,17 @@ class ProjectsController extends Controller
     public function create(Request $request)
     {
         $loggedId = $request->session()->get('user.id');
-        if (!$loggedId) {
-            return view('login');
-        }
+        $loggedRole = $request->session()->get('user.role');
+        if ($loggedRole != 'teacher') return redirect('/tasks');
 
         Task::create([
             'title' => $request->title,
-            'description' => $request->description,
-            'price' => $request->price,
-            'jobs_done' => $request->jobs_done,
-            'starts_at' => $request->starts_at,
-            'ends_at' => $request->ends_at,
-            'leader_id' => $loggedId,
+            'title_en' => $request->title_en,
+            'study_type' => $request->study_type,
+            'teacher_id' => $loggedId,
         ]);
 
-        return View::make('project-create');
+        return redirect('/tasks');
     }
 
     public function editForm(Request $request, $projectId)

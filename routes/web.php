@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\ProjectsController;
+use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\View;
 
 /*
@@ -47,19 +47,17 @@ Route::get('/users', [UserController::class, 'show']);
 Route::get('/change-role/{id}/{role}', [UserController::class, 'changeRole']);
 
 
-Route::post('/project-create', [ProjectsController::class, 'create']);
-Route::get('/projects', [ProjectsController::class, 'show']);
-Route::get('/project-create', function (\Illuminate\Http\Request $request) {
-    $loggedId = $request->session()->get('user.id');
-    if (!$loggedId) {
-        return view('login');
-    }
+Route::post('/project-create', [TaskController::class, 'create']);
+Route::get('/projects', [TaskController::class, 'show']);
+Route::get('/task-create', function (\Illuminate\Http\Request $request) {
+    $loggedRole = $request->session()->get('user.role');
+    if ($loggedRole != 'teacher') return redirect('/tasks');
 
-    return view('project-create');
+    return view('task-create');
 });
 
-Route::get('/project-assign/{projectId}', [ProjectsController::class, 'assignees']);
-Route::post('/project-assign', [ProjectsController::class, 'assign']);
+Route::get('/project-assign/{projectId}', [TaskController::class, 'assignees']);
+Route::post('/project-assign', [TaskController::class, 'assign']);
 
-Route::get('/project-edit/{projectId}', [ProjectsController::class, 'editForm']);
-Route::post('/project-edit/{projectId}', [ProjectsController::class, 'edit']);
+Route::get('/project-edit/{projectId}', [TaskController::class, 'editForm']);
+Route::post('/project-edit/{projectId}', [TaskController::class, 'edit']);

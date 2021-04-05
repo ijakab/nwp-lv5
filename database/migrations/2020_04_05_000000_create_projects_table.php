@@ -19,7 +19,7 @@ class CreateProjectsTable extends Migration
             $table->text('title_en');
             $table->enum('study_type', ['strucni', 'preddiplomski', 'diplomski']);
             $table->integer('teacher_id');
-            $table->integer('student_id');
+            $table->integer('student_id')->nullable();
             $table->timestamps();
         });
     }
