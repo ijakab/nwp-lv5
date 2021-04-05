@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ProjectsController;
 use Illuminate\Support\Facades\View;
 
 /*
@@ -42,3 +43,13 @@ Route::post('/register', [UserController::class, 'register']);
 Route::post('/login', [UserController::class, 'login']);
 Route::get('/logout', [UserController::class, 'logout']);
 
+
+Route::post('/project-create', [ProjectsController::class, 'create']);
+Route::get('/project-create', function (\Illuminate\Http\Request $request) {
+    $loggedId = $request->session()->get('user.id');
+    if (!$loggedId) {
+        return view('login');
+    }
+
+    return view('project-create');
+});
