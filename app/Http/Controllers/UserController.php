@@ -31,7 +31,7 @@ class UserController extends Controller
         $request->session()->put('user.email', $user->email);
         $request->session()->put('user.name', $user->name);
 
-        return View::make('welcome');
+        return redirect('/projects');
     }
 
     public function logout(Request $request)

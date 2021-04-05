@@ -21,6 +21,15 @@
     </style>
 </head>
 <body class="antialiased">
+<header>
+    <navigation>
+        <a href="/register">Registracija | </a>
+        <a href="/login">Prijava | </a>
+        <a href="/logout">Odjava | </a>
+        <a href="/project-create">Dodaj projekt | </a>
+        <a href="/projects">Lista projekata | </a>
+    </navigation>
+</header>
 <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
     <form action="/project-edit/{{$project->id}}" method="post">
         @csrf

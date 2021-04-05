@@ -24,7 +24,7 @@ Route::get('/', function () {
 Route::get('/register', function (\Illuminate\Http\Request $request) {
     $loggedId = $request->session()->get('user.id');
     if ($loggedId) {
-        return view('welcome');
+        return redirect('/projects');
     }
 
     return view('register');
@@ -33,7 +33,7 @@ Route::get('/register', function (\Illuminate\Http\Request $request) {
 Route::get('/login', function (\Illuminate\Http\Request $request) {
     $loggedId = $request->session()->get('user.id');
     if ($loggedId) {
-        return view('welcome');
+        return redirect('/projects');
     }
 
     return view('login');
