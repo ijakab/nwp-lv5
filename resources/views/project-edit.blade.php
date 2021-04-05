@@ -24,11 +24,11 @@
 <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
     <form action="/project-edit/{{$project->id}}" method="post">
         @csrf
-        <p> <input type="text" placeholder="title" name="title" value="{{$project->title}}" /> </p>
-        <p> <input type="text" placeholder="description" name="description" value="{{$project->description}}" /> </p>
-        <p> <input type="text" placeholder="price" name="price" value="{{$project->price}}" /> </p>
-        <p> <input type="date" placeholder="starts_at" name="starts_at" value="{{$project->starts_at}}" /> </p>
-        <p> <input type="date" placeholder="ends_at" name="ends_at" value="{{$project->ends_at}}" /> </p>
+        <p> @if($project->leader_id == $loggedUserId)<input type="text" placeholder="title" name="title" value="{{$project->title}}" /> @endif</p>
+        <p> @if($project->leader_id == $loggedUserId)<input type="text" placeholder="description" name="description" value="{{$project->description}}" /> @endif</p>
+        <p> @if($project->leader_id == $loggedUserId)<input type="text" placeholder="price" name="price" value="{{$project->price}}" /> @endif</p>
+        <p> @if($project->leader_id == $loggedUserId)<input type="date" placeholder="starts_at" name="starts_at" value="{{$project->starts_at}}" /> @endif</p>
+        <p> @if($project->leader_id == $loggedUserId)<input type="date" placeholder="ends_at" name="ends_at" value="{{$project->ends_at}}" />  @endif</p>
         <p> <textarea name="jobs_done">{{$project->jobs_done}} </textarea> </p>
         <p> <input type="submit" name="submit" /> </p>
     </form>

@@ -89,4 +89,27 @@ class ProjectsController extends Controller
             'loggedUserId' => $loggedId
         ]);
     }
+
+    public function edit(Request $request, $projectId)
+    {
+        $loggedId = $request->session()->get('user.id');
+        if (!$loggedId) {
+            return view('login');
+        }
+
+        $project = Projects::where('id', $projectId)->first();
+        if ($project->leader_id == $loggedId) {
+            $project->title = $request->title;
+            $project->description = $request->description;
+            $project->price = $request->price;
+            $project->jobs_done = $request->jobs_done;
+            $project->starts_at = $request->starts_at;
+            $project->ends_at = $request->ends_at;
+        } else {
+            $project->jobs_done = $request->jobs_done;
+        }
+        $project->save();
+
+        return redirect('/projects');
+    }
 }

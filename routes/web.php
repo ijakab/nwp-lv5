@@ -59,3 +59,4 @@ Route::get('/project-assign/{projectId}', [ProjectsController::class, 'assignees
 Route::post('/project-assign', [ProjectsController::class, 'assign']);
 
 Route::get('/project-edit/{projectId}', [ProjectsController::class, 'editForm']);
+Route::post('/project-edit/{projectId}', [ProjectsController::class, 'edit']);
