@@ -45,6 +45,7 @@ Route::get('/logout', [UserController::class, 'logout']);
 
 
 Route::post('/project-create', [ProjectsController::class, 'create']);
+Route::get('/projects', [ProjectsController::class, 'show']);
 Route::get('/project-create', function (\Illuminate\Http\Request $request) {
     $loggedId = $request->session()->get('user.id');
     if (!$loggedId) {

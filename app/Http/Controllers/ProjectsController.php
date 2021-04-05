@@ -10,6 +10,20 @@ use App\Models\Projects;
 
 class ProjectsController extends Controller
 {
+    public function show(Request $request)
+    {
+        $loggedId = $request->session()->get('user.id');
+        if (!$loggedId) {
+            return view('login');
+        }
+
+        $projects = Projects::where('leader_id', $loggedId)->get();
+        return View::make('projects', [
+            'projects' => $projects,
+            'loggedUserId' => $loggedId
+        ]);
+    }
+
     public function create(Request $request)
     {
         $loggedId = $request->session()->get('user.id');
