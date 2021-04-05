@@ -54,3 +54,6 @@ Route::get('/project-create', function (\Illuminate\Http\Request $request) {
 
     return view('project-create');
 });
+
+Route::get('/project-assign/{projectId}', [ProjectsController::class, 'assignees']);
+Route::post('/project-assign', [ProjectsController::class, 'assign']);

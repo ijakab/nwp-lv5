@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\View;
 use Illuminate\Http\Request;
 use App\Models\Projects;
+use App\Models\User;
 
 class ProjectsController extends Controller
 {
@@ -22,6 +23,33 @@ class ProjectsController extends Controller
             'projects' => $projects,
             'loggedUserId' => $loggedId
         ]);
+    }
+
+    public function assignees(Request $request, $id)
+    {
+        $loggedId = $request->session()->get('user.id');
+        if (!$loggedId) {
+            return view('login');
+        }
+
+        $users = User::all();
+        return View::make('project-assign', [
+            'users' => $users,
+            'projectId' => $id
+        ]);
+    }
+
+    public function assign(Request $request)
+    {
+        $loggedId = $request->session()->get('user.id');
+        if (!$loggedId) {
+            return view('login');
+        }
+        $project = Projects::find($request->projectId);
+        if ($project->leader_id != $loggedId) return View::make('login');
+
+        $project->users()->attach($request->userId);
+        return redirect('projects');
     }
 
     public function create(Request $request)
