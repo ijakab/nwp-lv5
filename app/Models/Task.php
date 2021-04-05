@@ -39,4 +39,9 @@ class Task extends Authenticatable
      */
     protected $casts = [
     ];
+
+    public function student()
+    {
+        return $this->belongsTo(User::class, 'student_id');
+    }
 }

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\View;
 use Illuminate\Http\Request;
 use App\Models\Task;
@@ -15,16 +14,18 @@ class TaskController extends Controller
     public function show(Request $request)
     {
         $loggedId = $request->session()->get('user.id');
-        if (!$loggedId) {
-            return view('login');
+        $loggedRole = $request->session()->get('user.role');
+        $tasks = [];
+
+        if ($loggedRole == 'teacher') {
+            $tasks = Task::where('teacher_id', $loggedId)->with('student')->get();
+        } else if ($loggedRole == 'student') {
+            $tasks = Task::whereNotNull('student_id')->with('student')->get();
         }
 
-        $projects = Task::where('leader_id', $loggedId)->orWhereHas('users', function (Builder $query) use ($loggedId) {
-            $query->where('users.id', '=', $loggedId);
-        })->get();
-        return View::make('projects', [
-            'projects' => $projects,
-            'loggedUserId' => $loggedId
+        return View::make('tasks', [
+            'tasks' => $tasks,
+            'loggedUserRole' => $loggedRole
         ]);
     }
 

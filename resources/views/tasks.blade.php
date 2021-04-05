@@ -35,22 +35,22 @@
         <thead>
             <tr>
                 <th>Naziv</th>
-                <th>Opis</th>
-                <th>Price</th>
-                <th>Izvrseni poslovi</th>
+                <th>Naziv na engleskom</th>
+                <th>Studijski program</th>
+                @if($loggedUserRole == 'teacher') <th>Izabrao</th> @endif
                 <th>Akcije</th>
             </tr>
         </thead>
         <tbody>
-        @foreach ($projects as $project)
+        @foreach ($tasks as $task)
             <tr>
-                <td>{{$project->title}}</td>
-                <td>{{$project->description}}</td>
-                <td>{{$project->price}}</td>
-                <td>{{$project->jobs_done}}</td>
+                <td>{{$task->title}}</td>
+                <td>{{$task->title_en}}</td>
+                <td>{{$task->study_type}}</td>
+                @if($loggedUserRole == 'teacher') <td> @if($task->student){{$task->student->name}} @endif</td> @endif
                 <td>
-                    <a href="/project-edit/{{$project->id}}">Uredi</a>
-                    @if($project->leader_id == $loggedUserId)<a href="/project-assign/{{$project->id}}">Dodaj Covjeka</a>@endif
+                    @if($loggedUserRole == 'student')<a href="/apply/{{$task->id}}">Prijavi se</a>  @endif
+                    @if($loggedUserRole == 'teacher')<a href="/applicants/{{$task->id}}">Pogledaj prijave</a>@endif
                 </td>
             </tr>
         @endforeach
