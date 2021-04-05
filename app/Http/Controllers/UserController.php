@@ -22,7 +22,6 @@ class UserController extends Controller
 
     public function login(Request $request)
     {
-        Log::info('Ide u login');
         $user = User::firstWhere([
             'email' => $request->email,
             'password' => $request->password,
@@ -33,5 +32,13 @@ class UserController extends Controller
         $request->session()->put('user.name', $user->name);
 
         return View::make('welcome');
+    }
+
+    public function logout(Request $request)
+    {
+        $request->session()->forget('user.id');
+        $request->session()->forget('user.email');
+        $request->session()->forget('user.name');
+        return View::make('login');
     }
 }
