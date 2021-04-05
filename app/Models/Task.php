@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class Projects extends Authenticatable
+class Task extends Authenticatable
 {
     use HasFactory, Notifiable;
 
@@ -18,12 +18,10 @@ class Projects extends Authenticatable
      */
     protected $fillable = [
         'title',
-        'description',
-        'price',
-        'jobs_done',
-        'starts_at',
-        'ends_at',
-        'leader_id',
+        'title_en',
+        'study_type',
+        'teacher_id',
+        'student_id',
     ];
 
     /**
@@ -40,12 +38,5 @@ class Projects extends Authenticatable
      * @var array
      */
     protected $casts = [
-        'starts_at' => 'datetime',
-        'ends_at' => 'datetime',
     ];
-
-    public function users()
-    {
-        return $this->belongsToMany(User::class);
-    }
 }

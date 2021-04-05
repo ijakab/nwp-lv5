@@ -17,6 +17,7 @@ class CreateAdmin extends Migration
             'name' => 'Admin',
             'email' => 'admin@admin.admin',
             'password' => 'admin',
+            'role' => 'admin',
         ]);
     }
 

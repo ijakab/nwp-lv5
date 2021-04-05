@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\View;
 use Illuminate\Http\Request;
-use App\Models\Projects;
+use App\Models\Task;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -19,7 +19,7 @@ class ProjectsController extends Controller
             return view('login');
         }
 
-        $projects = Projects::where('leader_id', $loggedId)->orWhereHas('users', function (Builder $query) use ($loggedId) {
+        $projects = Task::where('leader_id', $loggedId)->orWhereHas('users', function (Builder $query) use ($loggedId) {
             $query->where('users.id', '=', $loggedId);
         })->get();
         return View::make('projects', [
@@ -48,7 +48,7 @@ class ProjectsController extends Controller
         if (!$loggedId) {
             return view('login');
         }
-        $project = Projects::find($request->projectId);
+        $project = Task::find($request->projectId);
         if ($project->leader_id != $loggedId) return View::make('login');
 
         $project->users()->attach($request->userId);
@@ -62,7 +62,7 @@ class ProjectsController extends Controller
             return view('login');
         }
 
-        Projects::create([
+        Task::create([
             'title' => $request->title,
             'description' => $request->description,
             'price' => $request->price,
@@ -82,7 +82,7 @@ class ProjectsController extends Controller
             return view('login');
         }
 
-        $project = Projects::where('id', $projectId)->first();
+        $project = Task::where('id', $projectId)->first();
 
         return View::make('project-edit', [
             'project' => $project,
@@ -97,7 +97,7 @@ class ProjectsController extends Controller
             return view('login');
         }
 
-        $project = Projects::where('id', $projectId)->first();
+        $project = Task::where('id', $projectId)->first();
         if ($project->leader_id == $loggedId) {
             $project->title = $request->title;
             $project->description = $request->description;

@@ -43,6 +43,9 @@ Route::post('/register', [UserController::class, 'register']);
 Route::post('/login', [UserController::class, 'login']);
 Route::get('/logout', [UserController::class, 'logout']);
 
+Route::get('/users', [UserController::class, 'show']);
+Route::get('/change-role/{id}/{role}', [UserController::class, 'changeRole']);
+
 
 Route::post('/project-create', [ProjectsController::class, 'create']);
 Route::get('/projects', [ProjectsController::class, 'show']);

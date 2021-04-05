@@ -10,6 +10,28 @@ use App\Models\User;
 
 class UserController extends Controller
 {
+    public function show(Request $request)
+    {
+        $loggedRole = $request->session()->get('user.role');
+        if ($loggedRole != 'admin') return redirect('/tasks');
+
+        $users = User::all();
+        return View::make('users', [
+            'users' => $users
+        ]);
+    }
+
+    public function changeRole(Request $request, $id, $role)
+    {
+        $loggedRole = $request->session()->get('user.role');
+        if ($loggedRole != 'admin') redirect('/tasks');
+
+        $user = User::where('id', $id)->first();
+        $user->role = $role;
+        $user->save();
+        return redirect('/users');
+    }
+
     public function register(Request $request)
     {
         User::create([
@@ -30,6 +52,7 @@ class UserController extends Controller
         $request->session()->put('user.id', $user->id);
         $request->session()->put('user.email', $user->email);
         $request->session()->put('user.name', $user->name);
+        $request->session()->put('user.role', $user->role);
 
         return redirect('/projects');
     }
@@ -39,6 +62,7 @@ class UserController extends Controller
         $request->session()->forget('user.id');
         $request->session()->forget('user.email');
         $request->session()->forget('user.name');
+        $request->session()->forget('user.role');
         return View::make('login');
     }
 }
