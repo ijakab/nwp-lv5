@@ -26,12 +26,13 @@
         <a href="/register">Registracija | </a>
         <a href="/login">Prijava | </a>
         <a href="/logout">Odjava | </a>
-        <a href="/project-create">Dodaj projekt | </a>
-        <a href="/projects">Lista projekata | </a>
+        <a href="/task-create">Dodaj rad (Nastavnici) | </a>
+        <a href="/tasks">Lista radova | </a>
+        <a href="/users">Korisnici (admin) | </a>
     </navigation>
 </header>
 <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
-    <form action="/project-create" method="post">
+    <form action="/task-create" method="post">
         @csrf
         <p> <input type="text" placeholder="title" name="title" /> </p>
         <p> <input type="text" placeholder="title_en" name="title_en" /> </p>

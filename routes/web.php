@@ -48,6 +48,7 @@ Route::get('/change-role/{id}/{role}', [UserController::class, 'changeRole']);
 
 
 Route::get('/tasks', [TaskController::class, 'show']);
+Route::post('/task-create', [TaskController::class, 'create']);
 Route::get('/task-create', function (\Illuminate\Http\Request $request) {
     $loggedRole = $request->session()->get('user.role');
     if ($loggedRole != 'teacher') return redirect('/tasks');
