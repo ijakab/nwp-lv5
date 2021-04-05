@@ -13,7 +13,7 @@ class CreateProjectParticipantsTable extends Migration
      */
     public function up()
     {
-        Schema::create('task_appliers', function (Blueprint $table) {
+        Schema::create('task_user', function (Blueprint $table) {
             $table->id();
             $table->integer('task_id');
             $table->integer('user_id');

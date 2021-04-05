@@ -43,17 +43,17 @@ class TaskController extends Controller
         ]);
     }
 
-    public function assign(Request $request)
+    public function apply(Request $request, $taskId)
     {
         $loggedId = $request->session()->get('user.id');
-        if (!$loggedId) {
-            return view('login');
+        $loggedRole = $request->session()->get('user.role');
+        if ($loggedRole != 'student') {
+            return view('/tasks');
         }
-        $project = Task::find($request->projectId);
-        if ($project->leader_id != $loggedId) return View::make('login');
 
-        $project->users()->attach($request->userId);
-        return redirect('projects');
+        $task = Task::find($taskId);
+        $task->applicants()->attach($loggedId);
+        return redirect('/tasks');
     }
 
     public function create(Request $request)
@@ -70,43 +70,5 @@ class TaskController extends Controller
         ]);
 
         return redirect('/tasks');
-    }
-
-    public function editForm(Request $request, $projectId)
-    {
-        $loggedId = $request->session()->get('user.id');
-        if (!$loggedId) {
-            return view('login');
-        }
-
-        $project = Task::where('id', $projectId)->first();
-
-        return View::make('project-edit', [
-            'project' => $project,
-            'loggedUserId' => $loggedId
-        ]);
-    }
-
-    public function edit(Request $request, $projectId)
-    {
-        $loggedId = $request->session()->get('user.id');
-        if (!$loggedId) {
-            return view('login');
-        }
-
-        $project = Task::where('id', $projectId)->first();
-        if ($project->leader_id == $loggedId) {
-            $project->title = $request->title;
-            $project->description = $request->description;
-            $project->price = $request->price;
-            $project->jobs_done = $request->jobs_done;
-            $project->starts_at = $request->starts_at;
-            $project->ends_at = $request->ends_at;
-        } else {
-            $project->jobs_done = $request->jobs_done;
-        }
-        $project->save();
-
-        return redirect('/projects');
     }
 }

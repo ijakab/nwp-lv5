@@ -44,4 +44,9 @@ class Task extends Authenticatable
     {
         return $this->belongsTo(User::class, 'student_id');
     }
+
+    public function applicants()
+    {
+        return $this->belongsToMany(User::class);
+    }
 }

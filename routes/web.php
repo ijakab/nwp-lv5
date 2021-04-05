@@ -47,7 +47,6 @@ Route::get('/users', [UserController::class, 'show']);
 Route::get('/change-role/{id}/{role}', [UserController::class, 'changeRole']);
 
 
-Route::post('/project-create', [TaskController::class, 'create']);
 Route::get('/tasks', [TaskController::class, 'show']);
 Route::get('/task-create', function (\Illuminate\Http\Request $request) {
     $loggedRole = $request->session()->get('user.role');
@@ -56,8 +55,4 @@ Route::get('/task-create', function (\Illuminate\Http\Request $request) {
     return view('task-create');
 });
 
-Route::get('/project-assign/{projectId}', [TaskController::class, 'assignees']);
-Route::post('/project-assign', [TaskController::class, 'assign']);
-
-Route::get('/project-edit/{projectId}', [TaskController::class, 'editForm']);
-Route::post('/project-edit/{projectId}', [TaskController::class, 'edit']);
+Route::get('/apply/{taskId}', [TaskController::class, 'apply']);
