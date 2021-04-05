@@ -13,15 +13,13 @@ class CreateProjectsTable extends Migration
      */
     public function up()
     {
-        Schema::create('projects', function (Blueprint $table) {
+        Schema::create('tasks', function (Blueprint $table) {
             $table->id();
             $table->text('title');
-            $table->text('description');
-            $table->text('price');
-            $table->text('jobs_done');
-            $table->timestamp('starts_at')->useCurrent();
-            $table->timestamp('ends_at')->useCurrent();
-            $table->integer('leader_id');
+            $table->text('title_en');
+            $table->enum('study_type', ['strucni', 'preddiplomski', 'diplomski']);
+            $table->integer('teacher_id');
+            $table->integer('student_id');
             $table->timestamps();
         });
     }

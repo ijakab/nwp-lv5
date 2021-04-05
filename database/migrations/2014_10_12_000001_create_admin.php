@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateProjectParticipantsTable extends Migration
+class CreateAdmin extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class CreateProjectParticipantsTable extends Migration
      */
     public function up()
     {
-        Schema::create('task_appliers', function (Blueprint $table) {
-            $table->id();
-            $table->integer('task_id');
-            $table->integer('user_id');
-            $table->timestamps();
-        });
+        \App\Models\User::create([
+            'name' => 'Admin',
+            'email' => 'admin@admin.admin',
+            'password' => 'admin',
+        ]);
     }
 
     /**
@@ -28,6 +27,6 @@ class CreateProjectParticipantsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('project_participants');
+        Schema::dropIfExists('users');
     }
 }
