@@ -22,10 +22,16 @@ class UserController extends Controller
 
     public function login(Request $request)
     {
+        Log::info('Ide u login');
         $user = User::firstWhere([
             'email' => $request->email,
             'password' => $request->password,
         ]);
-        return View::make('register');
+        if (!$user) return View::make('login');
+        $request->session()->put('user.id', $user->id);
+        $request->session()->put('user.email', $user->email);
+        $request->session()->put('user.name', $user->name);
+
+        return View::make('welcome');
     }
 }
