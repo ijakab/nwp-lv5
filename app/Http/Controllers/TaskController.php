@@ -18,7 +18,7 @@ class TaskController extends Controller
         if ($loggedRole == 'teacher') {
             $tasks = Task::where('teacher_id', $loggedId)->with('student')->get();
         } else if ($loggedRole == 'student') {
-            $tasks = Task::whereNotNull('student_id')->with('student')->get();
+            $tasks = Task::whereNull('student_id')->with('student')->get();
         }
 
         return View::make('tasks', [
