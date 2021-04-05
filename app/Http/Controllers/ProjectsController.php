@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Http\Request;
 use App\Models\Projects;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 
 class ProjectsController extends Controller
 {
@@ -18,10 +19,12 @@ class ProjectsController extends Controller
             return view('login');
         }
 
-        $projects = Projects::where('leader_id', $loggedId)->get();
+        $projects = Projects::where('leader_id', $loggedId)->orWhereHas('users', function (Builder $query) use ($loggedId) {
+            $query->where('users.id', '=', $loggedId);
+        })->get();
         return View::make('projects', [
             'projects' => $projects,
-            'loggedUserId' => $loggedId
+            'loggedUse˚rId' => $loggedId
         ]);
     }
 
